@@ -28,9 +28,9 @@ def main():
                 ● Consulta de datos a la nueva tabla de PEA_NOTAS
 
                 """,
-        flgTests="     ",
-        flgRollback = "     ",
-        flgDependencies = " X ",
+        flgTests="",
+        flgRollback = "",
+        flgDependencies = "X",
         components=[
             Component(
                 type=str(ComponentType.PIPELINE.value),
