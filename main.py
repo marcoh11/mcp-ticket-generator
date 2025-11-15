@@ -8,27 +8,32 @@ from models.verification import Verification
 from models.approver import Approver
 from models.enums import DeploymentType, ComponentType, ScriptType
 
-from services.template_service import TemplateService
+from services.template_services import TemplateService
 
 
 def main():
-
+    print(DeploymentType.REQUERIMIENTO.value)
     data = TemplateData(
-        deploymentType=DeploymentType.REQUERIMIENTO,
+        deploymentType=str(DeploymentType.REQUERIMIENTO.value),
         deploymentDate="04/11/2025",
         glpiTicketId=385,
         deploymentName="Agregar validación en trámites de cambio de sección y nivel de inglés",
         deploymentRequester="Erickson Gabriel Hinostroza Vargas",
         deploymentDeveloper="Alvaro Moises Castro Romero",
-        deploytmentApprover="Jainor Ruben Carbajal Parodi",
+        deploymentApprover="Jainor Ruben Carbajal Parodi",
         deploymentDescription="""
-Agregar Validación en trámites de cambio de sección y nivel de inglés:
-● Se agregó nueva validación al momento de solicitar trámite de cambio de sección y nivel de inglés en caso tenga un trámite activo.
-● Consulta de datos a la nueva tabla de PEA_NOTAS
-""",
+                Agregar Validación en trámites de cambio de sección y nivel de inglés:
+
+                ● Se agregó nueva validación al momento de solicitar trámite de cambio de sección y nivel de inglés en caso tenga un trámite activo.
+                ● Consulta de datos a la nueva tabla de PEA_NOTAS
+
+                """,
+        flgTests="     ",
+        flgRollback = "     ",
+        flgDependencies = " X ",
         components=[
             Component(
-                type=ComponentType.PIPELINE,
+                type=str(ComponentType.PIPELINE.value),
                 route="is-prod-cva-tramites-pipeline",
                 repository="cva-tramites-backend",
                 pullRequest="https://bitbucket.org/pe-innova-schools/cva-tramites-backend/pull-requests/328",
@@ -41,7 +46,7 @@ Agregar Validación en trámites de cambio de sección y nivel de inglés:
                 name="script_1.sql",
                 database="PEA",
                 schema="PEA_NOTAS",
-                type=ScriptType.DDL,
+                type=ScriptType.DDL.value,
                 description="Crear Tabla Nueva",
                 validator="Jainor"
             )
@@ -94,7 +99,7 @@ Agregar Validación en trámites de cambio de sección y nivel de inglés:
                 status="Pendiente"
             )
         ],
-        aprovers=[
+        approvers=[
             Approver(
                 role="Project Owner",
                 name="Erickson Gabriel Hinostroza Vargas",
@@ -106,6 +111,7 @@ Agregar Validación en trámites de cambio de sección y nivel de inglés:
     output_file = service.generate_deployment_doc(data)
 
     print(f"Documento generado en: {output_file}")
+    #print(f"Documento generado")
 
 
 if __name__ == "__main__":

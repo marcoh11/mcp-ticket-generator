@@ -16,8 +16,12 @@ class TemplateData(BaseModel):
     deploymentName: str
     deploymentRequester: str
     deploymentDeveloper: str
-    deploytmentApprover: str
+    deploymentApprover: str
     deploymentDescription: str
+
+    flgTests: str
+    flgRollback: str
+    flgDependencies: str
 
     components: Optional[List[Component]] = []
     scripts: Optional[List[Script]] = []
@@ -25,4 +29,5 @@ class TemplateData(BaseModel):
     steps: Optional[List[Step]] = []
     rollbackPlans: Optional[List[RollbackPlan]] = []
     verifications: Optional[List[Verification]] = []
-    aprovers: Optional[List[Approver]] = []
+    approvers: Optional[List[Approver]] = []
+

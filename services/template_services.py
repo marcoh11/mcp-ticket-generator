@@ -18,7 +18,7 @@ class TemplateService:
         Deployment_file_<timestamp>.docx
         """
         doc = DocxTemplate(self.TEMPLATE_PATH)
-        context = data.dict()
+        context = data.model_dump(by_alias=True)
         doc.render(context)
         timestamp = int(time.time())  
         file_name = f"Deployment_file_{timestamp}.docx"
