@@ -1,0 +1,275 @@
+{
+  "name": "generate_document",
+  "description": "Genera un archivo de despliegue en formato Word usando la información proporcionada.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "deploymentType": {
+        "type": "string",
+        "description": "Tipo de despliegue (ej: REQUERIMIENTO, INCIDENCIA, etc.)"
+      },
+      "deploymentDate": {
+        "type": "string",
+        "description": "Fecha del despliegue en formato DD/MM/YYYY"
+      },
+      "glpiTicketId": {
+        "type": "integer",
+        "description": "ID del ticket en GLPI"
+      },
+      "deploymentName": {
+        "type": "string",
+        "description": "Nombre descriptivo del despliegue"
+      },
+      "deploymentRequester": {
+        "type": "string",
+        "description": "Nombre completo del solicitante del despliegue"
+      },
+      "deploymentDeveloper": {
+        "type": "string",
+        "description": "Nombre completo del desarrollador responsable"
+      },
+      "deploytmentApprover": {
+        "type": "string",
+        "description": "Nombre completo del aprobador del despliegue"
+      },
+      "deploymentDescription": {
+        "type": "string",
+        "description": "Descripción detallada de los cambios a desplegar"
+      },
+      "flgTests": {
+        "type": "string",
+        "description": "Flag o marca para tests (opcional, usar 'X' si aplica)",
+        "default": ""
+      },
+      "flgRollback": {
+        "type": "string",
+        "description": "Flag o marca para rollback (opcional, usar 'X' si aplica)",
+        "default": ""
+      },
+      "flgDependencies": {
+        "type": "string",
+        "description": "Flag o marca para dependencias (opcional, usar 'X' si aplica)",
+        "default": ""
+      },
+      "components": {
+        "type": "array",
+        "description": "Lista de componentes o pipelines a desplegar",
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Tipo de componente (ej: PIPELINE, FRONTEND, BACKEND)"
+            },
+            "route": {
+              "type": "string",
+              "description": "Ruta o nombre del pipeline/componente"
+            },
+            "repository": {
+              "type": "string",
+              "description": "Nombre del repositorio"
+            },
+            "pullRequest": {
+              "type": "string",
+              "description": "URL del Pull Request"
+            },
+            "observations": {
+              "type": "string",
+              "description": "Observaciones adicionales sobre el componente"
+            }
+          },
+          "required": ["type", "route", "repository"]
+        },
+        "default": []
+      },
+      "scripts": {
+        "type": "array",
+        "description": "Lista de scripts SQL u otros a ejecutar durante el despliegue",
+        "items": {
+          "type": "object",
+          "properties": {
+            "order": {
+              "type": "integer",
+              "description": "Orden de ejecución del script"
+            },
+            "name": {
+              "type": "string",
+              "description": "Nombre del archivo del script"
+            },
+            "database": {
+              "type": "string",
+              "description": "Base de datos donde se ejecutará"
+            },
+            "schema": {
+              "type": "string",
+              "description": "Schema de la base de datos"
+            },
+            "type": {
+              "type": "string",
+              "description": "Tipo de script (DDL, DML, etc.)"
+            },
+            "description": {
+              "type": "string",
+              "description": "Descripción de lo que hace el script"
+            },
+            "validator": {
+              "type": "string",
+              "description": "Nombre de quien valida el script"
+            }
+          },
+          "required": ["order", "name", "database", "description"]
+        },
+        "default": []
+      },
+      "rollbackScripts": {
+        "type": "array",
+        "description": "Lista de scripts de rollback en caso de fallo",
+        "items": {
+          "type": "object",
+          "properties": {
+            "order": {
+              "type": "integer",
+              "description": "Orden de ejecución del script de rollback"
+            },
+            "name": {
+              "type": "string",
+              "description": "Nombre del archivo del script de rollback"
+            },
+            "database": {
+              "type": "string",
+              "description": "Base de datos donde se ejecutará"
+            },
+            "schema": {
+              "type": "string",
+              "description": "Schema de la base de datos"
+            },
+            "description": {
+              "type": "string",
+              "description": "Descripción de lo que hace el script de rollback"
+            }
+          },
+          "required": ["order", "name", "database", "description"]
+        },
+        "default": []
+      },
+      "steps": {
+        "type": "array",
+        "description": "Lista de pasos a seguir durante el despliegue",
+        "items": {
+          "type": "object",
+          "properties": {
+            "order": {
+              "type": "integer",
+              "description": "Orden del paso en el proceso de despliegue"
+            },
+            "description": {
+              "type": "string",
+              "description": "Descripción del paso a realizar"
+            },
+            "responsable": {
+              "type": "string",
+              "description": "Nombre del responsable de ejecutar este paso"
+            },
+            "action": {
+              "type": ["string", "null"],
+              "description": "Acción específica a realizar (opcional)"
+            },
+            "result": {
+              "type": ["string", "null"],
+              "description": "Resultado esperado del paso (opcional)"
+            }
+          },
+          "required": ["order", "description", "responsable"]
+        },
+        "default": []
+      },
+      "rollbackPlans": {
+        "type": "array",
+        "description": "Planes de rollback ante diferentes escenarios de fallo",
+        "items": {
+          "type": "object",
+          "properties": {
+            "context": {
+              "type": "string",
+              "description": "Contexto o escenario de fallo"
+            },
+            "action": {
+              "type": "string",
+              "description": "Acción a tomar para el rollback"
+            },
+            "responsable": {
+              "type": "string",
+              "description": "Responsable de ejecutar el rollback"
+            },
+            "time": {
+              "type": "string",
+              "description": "Tiempo estimado para el rollback"
+            }
+          },
+          "required": ["context", "action", "responsable"]
+        },
+        "default": []
+      },
+      "verifications": {
+        "type": "array",
+        "description": "Lista de verificaciones post-despliegue",
+        "items": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "description": "Descripción de la verificación a realizar"
+            },
+            "result": {
+              "type": "string",
+              "description": "Resultado esperado de la verificación"
+            },
+            "responsable": {
+              "type": "string",
+              "description": "Responsable de ejecutar la verificación"
+            },
+            "status": {
+              "type": "string",
+              "description": "Estado de la verificación (Pendiente, Completado, etc.)"
+            }
+          },
+          "required": ["description", "responsable"]
+        },
+        "default": []
+      },
+      "approvers": {
+        "type": "array",
+        "description": "Lista de aprobadores del despliegue",
+        "items": {
+          "type": "object",
+          "properties": {
+            "role": {
+              "type": "string",
+              "description": "Rol del aprobador (Project Owner, Tech Lead, etc.)"
+            },
+            "name": {
+              "type": "string",
+              "description": "Nombre completo del aprobador"
+            },
+            "date": {
+              "type": "string",
+              "description": "Fecha de aprobación en formato DD/MM/YYYY"
+            }
+          },
+          "required": ["role", "name", "date"]
+        },
+        "default": []
+      }
+    },
+    "required": [
+      "deploymentType",
+      "deploymentDate",
+      "glpiTicketId",
+      "deploymentName",
+      "deploymentRequester",
+      "deploymentDeveloper",
+      "deploytmentApprover",
+      "deploymentDescription"
+    ]
+  }
+}

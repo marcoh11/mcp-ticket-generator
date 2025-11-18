@@ -12,28 +12,25 @@ from services.template_services import TemplateService
 
 
 def main():
-    print(DeploymentType.REQUERIMIENTO.value)
+    print(DeploymentType.REQUERIMIENTO)
     data = TemplateData(
-        deploymentType=str(DeploymentType.REQUERIMIENTO.value),
+        deploymentType=str(DeploymentType.REQUERIMIENTO),
         deploymentDate="04/11/2025",
         glpiTicketId=385,
         deploymentName="Agregar validación en trámites de cambio de sección y nivel de inglés",
         deploymentRequester="Erickson Gabriel Hinostroza Vargas",
         deploymentDeveloper="Alvaro Moises Castro Romero",
         deploymentApprover="Jainor Ruben Carbajal Parodi",
-        deploymentDescription="""
-                Agregar Validación en trámites de cambio de sección y nivel de inglés:
-
-                ● Se agregó nueva validación al momento de solicitar trámite de cambio de sección y nivel de inglés en caso tenga un trámite activo.
-                ● Consulta de datos a la nueva tabla de PEA_NOTAS
-
+        deploymentDescription="""Agregar Validación en trámites de cambio de sección y nivel de inglés:
+                                  ● Se agregó nueva validación al momento de solicitar trámite de cambio de sección y nivel de inglés en caso tenga un trámite activo.
+                                  ● Consulta de datos a la nueva tabla de PEA_NOTAS
                 """,
         flgTests="",
         flgRollback = "",
         flgDependencies = "X",
         components=[
             Component(
-                type=str(ComponentType.PIPELINE.value),
+                type=str(ComponentType.PIPELINE),
                 route="is-prod-cva-tramites-pipeline",
                 repository="cva-tramites-backend",
                 pullRequest="https://bitbucket.org/pe-innova-schools/cva-tramites-backend/pull-requests/328",
