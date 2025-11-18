@@ -10,11 +10,9 @@ from .verification import Verification
 from .approver import Approver
 
 class TemplateData(BaseModel):
-
     model_config = {
         "use_enum_values": True
     }
-
     deploymentType: DeploymentType = Field(
         description="Tipo de despliegue (Incidencia,Requerimiento,etc)",
         example="Requerimiento"
@@ -66,7 +64,7 @@ class TemplateData(BaseModel):
 
     components: List[Component] = Field(
         default_factory=list,
-        description="Lista de componentes a desplegar",
+        description="Lista de recursos a desplegar (Pipeline,Legacy)",
         example=[
             {
                 "type": "Pipeline",
